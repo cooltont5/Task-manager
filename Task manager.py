@@ -1,4 +1,7 @@
 
+from pathlib import Path
+
+
 def start():
     print("1. View tasks")
     print("2. Add task")
@@ -7,38 +10,43 @@ def start():
     print("5.Exit")
 
 def Add(task): 
-     tasks.insert(position,task)
-     file = open("tasks.txt","w" )
+     tasks.append(task)
+     file = open(file_path,"w" )
      for task in tasks:
           file.write(task + "\n") 
-     file.close
+     file.close()
 
 
-def Remove():
+def Remove(location):
+     location = location - 1
      tasks.pop(location)
+     file = open(file_path,"w" )
+     for task in tasks:
+          file.write(task + "\n") 
+     file.close()
 
+def check():
+     location = int(input("What task would you like to remove? "))
+     if location <= 0 or location > len(tasks):
+          print("Please enter a valid number")
+          check()
+     else:
+          Remove(location)
+
+file_path = Path(__file__).parent/"tasks.txt"
 tasks = []
-position = 0 
-num = 0
-location = 1
+location = 0
+validity = True
+
 while True:
      start()
      choice = input("What would you like to do? ")
      if choice == "1":
-      file = open("tasks.txt")
-      for i in tasks:
-           print(location,".",i)
-           location = location + 1 
-      file.close
+      for location,task in enumerate(tasks,1):
+           print(location,".",task)
      if choice == "2":
-            task = input("What task would you like to add? ")
-            position = position + 1 
-            num = num + 1              
+            task = input("What task would you like to add? ")           
             Add(task)
      if choice == "3":
-          location = int(input("What task would you like to remove? "))
-          if location <= 0 or location > len(tasks):
-               print("Please enter a valid number")
-          Remove()
-
+           check()
           
