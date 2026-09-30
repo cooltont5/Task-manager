@@ -1,6 +1,6 @@
 
 from pathlib import Path
-
+2
 
 def start():
     print("1. View tasks")
@@ -33,11 +33,19 @@ def check():
      else:
           Remove(location)
 
+def load():
+     file =  open(file_path,"r")
+     for line in file:
+          tasks.append(line.strip())
+     file.close
+
+
 file_path = Path(__file__).parent/"tasks.txt"
 tasks = []
 location = 0
 validity = True
 
+load()
 while True:
      start()
      choice = input("What would you like to do? ")
@@ -49,4 +57,5 @@ while True:
             Add(task)
      if choice == "3":
            check()
+     print(tasks)
           
