@@ -1,6 +1,4 @@
-
 from pathlib import Path
-2
 
 def start():
     print("1. View tasks")
@@ -33,12 +31,38 @@ def check():
      else:
           Remove(location)
 
+def check_1():
+     location_1 = int(input("What task would you like to mark as complete ? "))
+     if location_1 <= 0 or location_1 > len(tasks):
+          print("Please enter a valid number")
+          check_1()
+     else:
+          complete(location_1)
+
+def complete(location_1):
+     location_1 = location_1 - 1
+     completed_task = tasks[location_1]
+     completed_task = completed_task + " completed"
+     tasks.pop(location_1)
+     tasks.insert(location_1,completed_task)
+     file = open(file_path,"w" )
+     for task in tasks:
+          file.write(task + "\n") 
+     file.close()
+     
+
+
+     
 def load():
      file =  open(file_path,"r")
      for line in file:
-          tasks.append(line.strip())
+          if line.strip():
+               tasks.append(line.strip())
      file.close
 
+def show():
+     for location,task in enumerate(tasks,1):
+          print(location,".",task)
 
 file_path = Path(__file__).parent/"tasks.txt"
 tasks = []
@@ -50,12 +74,12 @@ while True:
      start()
      choice = input("What would you like to do? ")
      if choice == "1":
-      for location,task in enumerate(tasks,1):
-           print(location,".",task)
+          show()
      if choice == "2":
             task = input("What task would you like to add? ")           
             Add(task)
      if choice == "3":
            check()
-     print(tasks)
+     if choice == "4":
+          check_1()
           
